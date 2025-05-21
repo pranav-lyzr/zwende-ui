@@ -29,7 +29,8 @@ interface Toast {
   variant?: 'default' | 'destructive';
 }
 
-const BASE_URL = "http://localhost:8003/chat";
+// const BASE_URL = "http://localhost:8003/chat";
+const BASE_URL = "https://zwande-backend.ca.lyzr.app/chat";
 
 const cn = (...classes: (string | undefined | null | false)[]): string => {
   return classes.filter(Boolean).join(' ');
