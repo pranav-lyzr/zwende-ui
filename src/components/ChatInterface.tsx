@@ -18,6 +18,7 @@ interface Message {
   timestamp: Date;
   type?: 'text' | 'interactive' | 'interactive_prod';
   buttons?: string[];
+  options?: string[];
   products?: Product[];
   total_products?: number;
 }
@@ -29,8 +30,8 @@ interface Toast {
   variant?: 'default' | 'destructive';
 }
 
-// const BASE_URL = "http://localhost:8003/chat";
-const BASE_URL = "https://zwande-backend.ca.lyzr.app/chat";
+const BASE_URL = "http://localhost:8003/chat";
+// const BASE_URL = "https://zwande-backend.ca.lyzr.app/chat";
 
 const cn = (...classes: (string | undefined | null | false)[]): string => {
   return classes.filter(Boolean).join(' ');
@@ -152,6 +153,7 @@ const ChatInterface = () => {
         timestamp: new Date(),
         type: data.type || 'text',
         buttons: data.buttons || [],
+        options: data.options || [],
         products: data.products?.map((p: any) => ({
           product_name: p['product name'],
           description: p.description,
@@ -214,6 +216,7 @@ const ChatInterface = () => {
         timestamp: new Date(),
         type: data.type || 'text',
         buttons: data.buttons || [],
+        options: data.options || [],
         products: data.products?.map((p: any) => ({
           product_name: p['product name'],
           description: p.description,
@@ -310,11 +313,25 @@ const ChatInterface = () => {
                           onClick={() => handleButtonClick(button)}
                           className="px-3 py-1 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
                         >
-                          {button}
+                            {button}
                         </button>
                       ))}
                     </div>
                   )}
+                  {message.options && message.options.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {message.options.map((option, index) => (
+                        <button
+                          key={index}
+                          onClick={() => handleButtonClick(option)}
+                          className="px-3 py-1 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
+                        >
+                          {option}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
                   {message.type === 'interactive_prod' && message.products && (
                     <div className="mt-2 grid grid-cols-1 gap-4">
                       {message.products.map((product, index) => (
